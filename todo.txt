@@ -1,0 +1,8 @@
+- ThreadPoolExecutor for parallel port scanning.
+- Cancellation support.
+- Press reporting via Qt signals.
+- Hostname validation.
+- Export results to CSV/JSON.
+- Dependency injection container for testing.
+- pytest-qt for GUI testing.
+- Async scanning using asyncio + qasync.
