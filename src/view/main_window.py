@@ -1,35 +1,31 @@
 from PySide6.QtWidgets import (
-    QWidget,
-    QHBoxLayout,
-    QVBoxLayout,
-    QPushButton,
-    QLineEdit,
-    QListWidget,
-    QLabel,
-    QFrame
+    QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QGroupBox,
+    QLineEdit, QListWidget, QLabel, QTextEdit
 )
 
-def bordered_layout(layout):
-    frame = QFrame()
-    frame.setObjectName("layoutBorder")
-    frame.setLayout(layout)
+# Puts a border and title around a BoxLayout
+def bordered_layout(layout, title=""):
+    group = QGroupBox(title)
+    group.setObjectName("layoutBorder")
+    group.setLayout(layout)
     layout.setContentsMargins(8, 8, 8, 8)
-    return frame
+    return group
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        # Layout boxes
+        main_layout = QHBoxLayout()
+        port_scan_box = QVBoxLayout()
+        hash_box = QVBoxLayout()
+
+        # Port scanner
         self.host_input = QLineEdit("10.241.17.103")
         self.start_port_input = QLineEdit("20")
         self.end_port_input = QLineEdit("30")
-
         self.scan_button = QPushButton("Scan")
         self.results = QListWidget()
-
-        main_layout = QHBoxLayout()
-
-        port_scan_box = QVBoxLayout()
 
         port_scan_box.addWidget(QLabel("Host"))
         port_scan_box.addWidget(self.host_input)
@@ -43,17 +39,24 @@ class MainWindow(QWidget):
         port_scan_box.addWidget(self.scan_button)
         port_scan_box.addWidget(self.results)
 
-        main_layout.addWidget(bordered_layout(port_scan_box))
+        main_layout.addWidget(bordered_layout(port_scan_box, "Port scanner"))
 
-        hash_box = QHBoxLayout()
+
+        # Hash string tool
         hash_box.addWidget(QLabel("Hash string: "))
-        hash_text = QLineEdit()
+        hash_text = QTextEdit()
         hash_box.addWidget(hash_text)
+        hash_value_button = QPushButton("Hash value")
+        hash_box.addWidget(hash_value_button)
+        hash_result_line = QLineEdit()
+        hash_box.addWidget(hash_result_line)
 
-        main_layout.addWidget(bordered_layout(hash_box))
-        
+        main_layout.addWidget(bordered_layout(hash_box, "Hash calculator"))
+
+
+        # Whole app
         self.setLayout(main_layout)
-        self.setWindowTitle("Port Scanner")
+        self.setWindowTitle("TSP")
 
         self.setStyleSheet("""
             QFrame#layoutBorder {
