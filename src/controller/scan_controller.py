@@ -1,5 +1,5 @@
 from PySide6.QtCore import QThread
-
+from config import DEBUG
 from model.scan_request import ScanRequest
 from service.port_scanner import PortScanner
 from view.scan_worker import ScanWorker
@@ -13,7 +13,8 @@ class ScanController:
     ):
         self._view = view
         self._scanner = scanner or PortScanner()
-        print("ScanController initiated")
+        if DEBUG:
+            print("ScanController initiated")
         self._view.scan_button.clicked.connect(
             self.start_scan
         )
@@ -21,7 +22,8 @@ class ScanController:
         self._thread = None
 
     def start_scan(self):
-        print("Starting scan")
+        if DEBUG:
+            print("Starting scan")
         request = ScanRequest(
             host=self._view.host_input.text(),
             start_port=int(
@@ -38,7 +40,8 @@ class ScanController:
             self._scanner,
             request,
         )
-        print("Worker created:", self._worker)
+        if DEBUG:
+            print("Worker created:", self._worker)
         self._worker.moveToThread(self._thread)
 
         self._thread.started.connect(self._worker.run)

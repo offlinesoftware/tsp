@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QGroupBox,
-    QLineEdit, QListWidget, QLabel, QTextEdit
+    QLineEdit, QListWidget, QLabel, QPlainTextEdit
 )
 
 # Puts a border and title around a BoxLayout
@@ -43,13 +43,17 @@ class MainWindow(QWidget):
 
 
         # Hash string tool
+        self.hash_edit = QPlainTextEdit()
+        self.hash_value_button = QPushButton("Hash value")
+        self.hash_result = QPlainTextEdit()
+
         hash_box.addWidget(QLabel("Hash string: "))
-        hash_text = QTextEdit()
-        hash_box.addWidget(hash_text)
-        hash_value_button = QPushButton("Hash value")
-        hash_box.addWidget(hash_value_button)
-        hash_result_line = QLineEdit()
-        hash_box.addWidget(hash_result_line)
+        hash_box.addWidget(self.hash_edit)
+        hash_box.addWidget(self.hash_value_button)
+        self.hash_result.setFixedHeight( # set three lines high
+            self.hash_result.fontMetrics().lineSpacing() * 3 + 8
+        )
+        hash_box.addWidget(self.hash_result)
 
         main_layout.addWidget(bordered_layout(hash_box, "Hash calculator"))
 

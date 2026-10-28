@@ -1,5 +1,5 @@
 import socket
-
+from config import DEBUG
 from model.scan_request import ScanRequest
 from model.scan_result import ScanResult
 
@@ -10,7 +10,8 @@ class PortScanner:
         results = []
 
         for port in range(request.start_port, request.end_port + 1):
-            print("Trying port", port)
+            if DEBUG:
+                print("Trying port", port)
             results.append(
                 ScanResult(
                     port=port,
