@@ -21,6 +21,7 @@ class CliController:
             result = subprocess.run(
                 command.split(), 
                 capture_output=True, 
-                text=True
+                text=True,
+                shell=True
             )
             self._view.cli_result.setPlainText(result.stdout)
