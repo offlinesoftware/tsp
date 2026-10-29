@@ -19,6 +19,7 @@ class MainWindow(QWidget):
         main_layout = QHBoxLayout()
         port_scan_box = QVBoxLayout()
         hash_box = QVBoxLayout()
+        cli_box = QVBoxLayout()
 
         # Port scanner
         self.host_input = QLineEdit("10.241.17.103")
@@ -57,6 +58,18 @@ class MainWindow(QWidget):
 
         main_layout.addWidget(bordered_layout(hash_box, "Hash calculator"))
 
+
+        # Command executor
+        self.cli_edit = QPlainTextEdit()
+        self.cli_run_button = QPushButton("Run")
+        self.cli_result = QPlainTextEdit()
+
+        cli_box.addWidget(QLabel("Command line(s)"))
+        cli_box.addWidget(self.cli_edit)
+        cli_box.addWidget(self.cli_run_button)
+        cli_box.addWidget(self.cli_result)
+
+        main_layout.addWidget(bordered_layout(cli_box, "Command executor"))
 
         # Whole app
         self.setLayout(main_layout)
