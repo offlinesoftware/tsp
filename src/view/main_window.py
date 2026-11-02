@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (
-    QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QGroupBox,
+    QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QGroupBox, QCheckBox,
     QLineEdit, QListWidget, QLabel, QPlainTextEdit, QComboBox
 )
 from hashlib import algorithms_guaranteed
@@ -18,9 +18,23 @@ class MainWindow(QWidget):
         super().__init__()
 
         # Layout boxes
-        main_layout = QHBoxLayout()
-        port_scan_box = self.build_port_scan_box(algorithms_guaranteed)
-        main_layout.addWidget(bordered_layout(port_scan_box, "Port scanner"))
+        self.main_layout = QHBoxLayout()
+        toggle_buttons = QVBoxLayout()
+        toggle_port_scan = QCheckBox("Port scan")
+        toggle_port_scan.setChecked(True)
+        toggle_port_scan.toggled.connect(self.toggle_group)
+        toggle_buttons.addWidget(toggle_port_scan)
+        self.main_layout.addWidget(bordered_layout(toggle_buttons, "Toggle sections"))
+
+
+
+
+
+        self.port_scan_box = self.build_port_scan_box(algorithms_guaranteed)
+        self.port_scan_group = bordered_layout(self.port_scan_box, "Port scanner")
+        self.main_layout.addWidget(self.port_scan_group)
+
+
         hash_box = QVBoxLayout()
         cli_box = QVBoxLayout()
 
@@ -39,7 +53,7 @@ class MainWindow(QWidget):
         )
         hash_box.addWidget(self.hash_result)
 
-        main_layout.addWidget(bordered_layout(hash_box, "Hash calculator"))
+        self.main_layout.addWidget(bordered_layout(hash_box, "Hash calculator"))
 
 
         # Command executor
@@ -52,10 +66,10 @@ class MainWindow(QWidget):
         cli_box.addWidget(self.cli_run_button)
         cli_box.addWidget(self.cli_result)
 
-        main_layout.addWidget(bordered_layout(cli_box, "Command executor"))
+        self.main_layout.addWidget(bordered_layout(cli_box, "Command executor"))
 
         # Whole app
-        self.setLayout(main_layout)
+        self.setLayout(self.main_layout)
         self.setWindowTitle("TSP")
 
         self.setStyleSheet("""
@@ -90,4 +104,13 @@ class MainWindow(QWidget):
         port_scan_box.addLayout(scan_select_box)
         port_scan_box.addWidget(self.results)
         return port_scan_box
-        
+
+
+    def toggle_group(self, checked):
+        if checked:
+            #self.main_layout.addWidget(self.port_scan_group)
+            self.port_scan_group.show()
+        else:
+            #self.main_layout.removeWidget(self.port_scan_group)
+            self.port_scan_group.hide()
+            # self.group.setParent(None)  # detach it without deleting it
