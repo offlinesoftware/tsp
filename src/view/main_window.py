@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import (
     QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QGroupBox,
-    QLineEdit, QListWidget, QLabel, QPlainTextEdit
+    QLineEdit, QListWidget, QLabel, QPlainTextEdit, QComboBox
 )
+from hashlib import algorithms_guaranteed
 
 # Puts a border and title around a BoxLayout
 def bordered_layout(layout, title=""):
@@ -11,37 +12,19 @@ def bordered_layout(layout, title=""):
     layout.setContentsMargins(8, 8, 8, 8)
     return group
 
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
         # Layout boxes
         main_layout = QHBoxLayout()
-        port_scan_box = QVBoxLayout()
+        port_scan_box = self.build_port_scan_box(algorithms_guaranteed)
+        main_layout.addWidget(bordered_layout(port_scan_box, "Port scanner"))
         hash_box = QVBoxLayout()
         cli_box = QVBoxLayout()
 
         # Port scanner
-        self.host_input = QLineEdit("10.241.17.103")
-        self.start_port_input = QLineEdit("20")
-        self.end_port_input = QLineEdit("30")
-        self.scan_button = QPushButton("Scan")
-        self.results = QListWidget()
-
-        port_scan_box.addWidget(QLabel("Host"))
-        port_scan_box.addWidget(self.host_input)
-
-        port_scan_box.addWidget(QLabel("Start Port"))
-        port_scan_box.addWidget(self.start_port_input)
-
-        port_scan_box.addWidget(QLabel("End Port"))
-        port_scan_box.addWidget(self.end_port_input)
-
-        port_scan_box.addWidget(self.scan_button)
-        port_scan_box.addWidget(self.results)
-
-        main_layout.addWidget(bordered_layout(port_scan_box, "Port scanner"))
-
 
         # Hash string tool
         self.hash_edit = QPlainTextEdit()
@@ -81,3 +64,30 @@ class MainWindow(QWidget):
                 border-radius: 4px;
             }
         """)
+
+    def build_port_scan_box(self, alogorithm_list):
+        self.host_input = QLineEdit("10.241.17.103")
+        self.start_port_input = QLineEdit("20")
+        self.end_port_input = QLineEdit("30")
+        scan_type_combo = QComboBox()
+        scan_type_combo.addItems(algorithms_guaranteed)
+        scan_type_combo.setCurrentText("sha256")
+        self.scan_button = QPushButton("Scan")
+        self.results = QListWidget()
+        port_scan_box = QVBoxLayout()
+        port_scan_box.addWidget(QLabel("Host"))
+        port_scan_box.addWidget(self.host_input)
+
+        port_scan_box.addWidget(QLabel("Start Port"))
+        port_scan_box.addWidget(self.start_port_input)
+
+        port_scan_box.addWidget(QLabel("End Port"))
+        port_scan_box.addWidget(self.end_port_input)
+
+        scan_select_box = QHBoxLayout()
+        scan_select_box.addWidget(scan_type_combo)
+        scan_select_box.addWidget(self.scan_button)
+        port_scan_box.addLayout(scan_select_box)
+        port_scan_box.addWidget(self.results)
+        return port_scan_box
+        
