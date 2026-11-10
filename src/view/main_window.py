@@ -19,41 +19,40 @@ class MainWindow(QWidget):
 
         # Layout boxes
         self.main_layout = QHBoxLayout()
+
+        # Toggle buttons
         toggle_buttons = QVBoxLayout()
+
+
         toggle_port_scan = QCheckBox("Port scan")
         toggle_port_scan.setChecked(True)
         toggle_port_scan.toggled.connect(self.toggle_group)
         toggle_buttons.addWidget(toggle_port_scan)
+
+
+        toggle_hash_calc = QCheckBox("Hash caclculator")
+        toggle_hash_calc.setChecked(True)
+        toggle_hash_calc.toggled.connect(self.toggle_group)
+        toggle_buttons.addWidget(toggle_hash_calc)
+
         self.main_layout.addWidget(bordered_layout(toggle_buttons, "Toggle sections"))
 
 
+        cli_box = QVBoxLayout()
 
-
-
+        # Port scanner
         self.port_scan_box = self.build_port_scan_box(algorithms_guaranteed)
         self.port_scan_group = bordered_layout(self.port_scan_box, "Port scanner")
         self.main_layout.addWidget(self.port_scan_group)
 
-
-        hash_box = QVBoxLayout()
-        cli_box = QVBoxLayout()
-
-        # Port scanner
-
         # Hash string tool
-        self.hash_edit = QPlainTextEdit()
-        self.hash_value_button = QPushButton("Hash value")
-        self.hash_result = QPlainTextEdit()
+        self.hash_box = self.build_hash_box()
+        self.hash_group = bordered_layout(self.hash_box, "Hash calculator")
+        self.main_layout.addWidget(self.hash_group)
 
-        hash_box.addWidget(QLabel("Hash string: "))
-        hash_box.addWidget(self.hash_edit)
-        hash_box.addWidget(self.hash_value_button)
-        self.hash_result.setFixedHeight( # set three lines high
-            self.hash_result.fontMetrics().lineSpacing() * 3 + 8
-        )
-        hash_box.addWidget(self.hash_result)
 
-        self.main_layout.addWidget(bordered_layout(hash_box, "Hash calculator"))
+
+        
 
 
         # Command executor
@@ -106,11 +105,24 @@ class MainWindow(QWidget):
         return port_scan_box
 
 
+    def build_hash_box(self):
+        self.hash_edit = QPlainTextEdit()
+        self.hash_value_button = QPushButton("Hash value")
+        self.hash_result = QPlainTextEdit()
+
+        hash_box = QVBoxLayout()
+        hash_box.addWidget(QLabel("Hash string: "))
+        hash_box.addWidget(self.hash_edit)
+        hash_box.addWidget(self.hash_value_button)
+        self.hash_result.setFixedHeight( # set three lines high
+            self.hash_result.fontMetrics().lineSpacing() * 3 + 8
+        )
+        hash_box.addWidget(self.hash_result)
+        return hash_box
+
+
     def toggle_group(self, checked):
         if checked:
-            #self.main_layout.addWidget(self.port_scan_group)
             self.port_scan_group.show()
         else:
-            #self.main_layout.removeWidget(self.port_scan_group)
             self.port_scan_group.hide()
-            # self.group.setParent(None)  # detach it without deleting it
