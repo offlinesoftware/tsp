@@ -12,5 +12,7 @@ class HashController:
 
     def process_hash(self):
         text = self._view.hash_edit.toPlainText()
-        result = HashCalculator.hash_sha256(text)
+        algo = self._view.hash_type_combo.currentText()
+
+        result = HashCalculator.hash_sha256(text, algo)
         self._view.hash_result.setPlainText(result)

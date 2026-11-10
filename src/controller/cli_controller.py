@@ -1,5 +1,4 @@
 import subprocess
-from config import DEBUG
 
 class CliController:
     def __init__(

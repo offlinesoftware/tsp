@@ -21,6 +21,7 @@ class MainWindow(QWidget):
         self.main_layout = QHBoxLayout()
         toggle_buttons = QVBoxLayout()
 
+        # Section definitions
         sections = [
             (
                 "port_scan",
@@ -39,6 +40,7 @@ class MainWindow(QWidget):
             ),
         ]
 
+        # Use sections list to construct everything with a loop
         self.section_groups = {}
         for key, group_title, build_layout in sections:
             group = bordered_layout(build_layout(), group_title)
@@ -56,7 +58,7 @@ class MainWindow(QWidget):
             self.main_layout.addWidget(group)
 
 
-        # Whole app
+        # Whole app config
         self.setLayout(self.main_layout)
         self.setWindowTitle("TSP")
 
@@ -94,10 +96,9 @@ class MainWindow(QWidget):
         self.hash_edit = QPlainTextEdit()
         self.hash_value_button = QPushButton("Hash value")
         self.hash_result = QPlainTextEdit()
-
-        hash_type_combo = QComboBox()
-        hash_type_combo.addItems(algorithms_guaranteed)
-        hash_type_combo.setCurrentText("sha256")
+        self.hash_type_combo = QComboBox()
+        self.hash_type_combo.addItems(algorithms_guaranteed)
+        self.hash_type_combo.setCurrentText("sha256")
         
         
         hash_box = QVBoxLayout()
@@ -105,7 +106,7 @@ class MainWindow(QWidget):
         hash_box.addWidget(self.hash_edit)
         
         hash_select_box = QHBoxLayout()
-        hash_select_box.addWidget(hash_type_combo)
+        hash_select_box.addWidget(self.hash_type_combo)
         hash_select_box.addWidget(self.hash_value_button)
         
         hash_box.addLayout(hash_select_box)
