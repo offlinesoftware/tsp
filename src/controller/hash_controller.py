@@ -14,5 +14,5 @@ class HashController:
         text = self._view.hash_edit.toPlainText()
         algo = self._view.hash_type_combo.currentText()
 
-        result = HashCalculator.hash_sha256(text, algo)
+        result = HashCalculator.run_hasher(text, algo)
         self._view.hash_result.setPlainText(result)
