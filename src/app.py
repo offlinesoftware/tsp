@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QApplication
 from controller.scan_controller import ScanController
 from controller.hash_controller import HashController
 from controller.cli_controller import CliController
+from controller.json_controller import JsonController
 from view.main_window import MainWindow
 
 
@@ -15,6 +16,7 @@ def main():
     view.scan_controller = ScanController(view)
     view.hash_controller = HashController(view)
     view.cli_controller = CliController(view)
+    view.json_controller = JsonController(view)
 
     view.show()
 

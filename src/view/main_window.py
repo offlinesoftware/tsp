@@ -38,6 +38,11 @@ class MainWindow(QWidget):
                 "Command executor",
                 self.build_cli_box,
             ),
+            (
+                "json_tree",
+                "JSON tree viewer",
+                self.build_json_box,
+            )
         ]
 
         # Use sections list to construct everything with a loop
@@ -129,6 +134,15 @@ class MainWindow(QWidget):
         cli_box.addWidget(self.cli_result)
 
         return cli_box
+
+    def build_json_box(self):
+        self.json_load_button = QPushButton("Load JSON file")
+        self.json_tree_view = QPlainTextEdit()
+
+        json_box = QVBoxLayout()
+        json_box.addWidget(self.json_load_button)
+        json_box.addWidget(self.json_tree_view)
+        return json_box
 
 
     def toggle_group(self, checked: bool, group: QGroupBox) -> None:
